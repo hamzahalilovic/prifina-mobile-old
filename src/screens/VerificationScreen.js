@@ -1,24 +1,20 @@
 import * as React from "react";
 import { View, Text, Image } from "react-native";
 
-import { useNavigation } from "@react-navigation/native";
-
 import { Button, Input, Icon } from "react-native-elements";
 
 import Container from "../components/Container";
 
-import login from "../assets/login.png";
+import email from "../assets/email.png";
 import profile from "../assets/profile.png";
 import lock from "../assets/lock.png";
 
-function LoginScreen() {
-  const { navigate } = useNavigation();
-
+function VerificationScreen() {
   return (
-    <Container>
-      <Image source={login} style={{ marginBottom: 30, marginTop: 150 }} />
+    <Container containerStyle={{ paddingRight: 35, paddingLeft: 35 }}>
+      <Image source={email} style={{ marginBottom: 30, marginTop: 150 }} />
       <Text style={{ fontSize: 18, textAlign: "center" }}>
-        Welcome to your personal data cloud
+        We have sent you a verification code via SMS. Please enter the code.
       </Text>
       <View marginTop={63}>
         <Input
@@ -59,9 +55,25 @@ function LoginScreen() {
         />
       </View>
       <Button
-        title="Login"
+        title="Confrim"
         onPress={() => {
-          navigate("Verification");
+          navigate("IntroTwo");
+        }}
+        buttonStyle={{
+          backgroundColor: "#00847A",
+          width: 134,
+          height: 35,
+          marginBottom: 24,
+          marginTop: 34,
+        }}
+        titleStyle={{
+          fontSize: 12,
+        }}
+      />
+      <Button
+        title="Resend code"
+        onPress={() => {
+          navigate("IntroTwo");
         }}
         buttonStyle={{
           backgroundColor: "#00847A",
@@ -78,4 +90,4 @@ function LoginScreen() {
   );
 }
 
-export default LoginScreen;
+export default VerificationScreen;
