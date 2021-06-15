@@ -1,9 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
+import { SafeAreaView } from "react-native";
 import { StyleSheet, Text, View } from "react-native";
 
 function Container({ children, containerStyle }) {
-  return <View style={[styles.container, containerStyle]}>{children}</View>;
+  return (
+    <SafeAreaView style={[styles.container, containerStyle]}>
+      {children}
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({

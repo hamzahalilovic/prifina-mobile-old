@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-prifinamobile-dev-155142-authRole",
+      "UnauthRoleArn": "arn:aws:iam::976740530968:role/amplify-prifinamobile-dev-155142-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::976740530968:role/amplify-prifinamobile-dev-155142-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-prifinamobile-dev-155142-deployment",
+      "UnauthRoleName": "amplify-prifinamobile-dev-155142-unauthRole",
+      "StackName": "amplify-prifinamobile-dev-155142",
+      "StackId": "arn:aws:cloudformation:eu-west-1:976740530968:stack/amplify-prifinamobile-dev-155142/a88ee110-cd17-11eb-b17c-0a082d492085",
+      "AmplifyAppId": "d24cbyc25uvati"
+    },
+    "categories": {
+      "auth": {
+        "prifinamobilece6640ee": {}
+      }
+    }
+  }
+}
