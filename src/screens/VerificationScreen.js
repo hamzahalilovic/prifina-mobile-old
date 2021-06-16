@@ -12,20 +12,65 @@ import ConfirmationCode from "../components/ConfirmationCode";
 
 import email from "../assets/email.png";
 
-function VerificationScreen() {
+function VerificationScreen({ route }) {
   const { navigate } = useNavigation();
 
-  const [authCode, setAuthCode] = useState("");
+  // const [authCode, setAuthCode] = useState("");
 
-  async function confirmSignIn() {
-    const user = await Auth.confirmSignIn(username, authCode)
+  // async function confirmSignIn() {
+  //   const user = await Auth.confirmSignIn(route.params.username, code)
+  //     .then((user) => {
+  //       console.log("successful confirmation: ", user);
+  //       // this.setState({ authCode: "" });
+  //       navigate("Home");
+  //     })
+  //     .catch((err) => {
+  //       console.log("error confirming user: ", err);
+  //     });
+  // }
+  // function confirmSignIn({ user, code, mfaType }) {
+  //   return Auth.confirmSignIn(user, code, mfaType);
+  // }
+
+  function confirmLogin({ cognitoUser, code }, history) {
+    return function (dispatch) {
+      console.log("actions.confirmLogin(): cognitoUSer, code:", {
+        cognitoUser,
+        code,
+      });
+
+      // confirmSignIn (cognito)
+      Auth.confirmSignIn(cognitoUser, code)
+        .then((data) => {
+          console.log(
+            "actions.confirmLogin():Auth.confirmSignIn() data: ",
+            data
+          );
+
+          // dispatch AUTH_USER
+
+          // we have authenticated, lets navigate to /main route
+          history.push("/");
+        })
+        .catch((err) => {
+          console.error(
+            "actions.confirmLogin():Auth.confirmSignIn() err:",
+            err
+          );
+          // error -- invoke authError which dispatches AUTH_ERROR
+        });
+    };
+  }
+  console.log(confirmLogin);
+
+  async function resendConfirmationCode() {
+    const user = await Auth.resendSignUp(route.params.username)
       .then((user) => {
-        console.log("successful confirmation: ", user);
-        // this.setState({ authCode: "" });
-        navigate("Home");
+        // at this time the user is logged in if no MFA required
+        console.log(route.params.username);
       })
-      .catch((err) => {
-        console.log("error confirming user: ", err);
+      .catch((e) => {
+        console.log(e);
       });
   }
 
@@ -51,13 +96,11 @@ function VerificationScreen() {
         titleStyle={{
           fontSize: 12,
         }}
-        onPress={confirmSignIn}
+        // onPress={confirmSignIn}
       />
       <Button
         title="Resend Code"
-        onPress={() => {
-          navigate("IntroTwo");
-        }}
+        onPress={resendConfirmationCode}
         buttonStyle={{
           backgroundColor: "#00847A",
           width: 134,

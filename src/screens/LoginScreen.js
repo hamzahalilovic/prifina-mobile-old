@@ -66,7 +66,8 @@ function LoginScreen() {
               console.log(e);
             });
         } else if (user.challengeName == "SMS_MFA") {
-          navigate("Verification", { user });
+          console.log("user", username);
+          navigate("Verification", { username, password });
         } else {
           // other situations
         }
@@ -90,15 +91,6 @@ function LoginScreen() {
   //     .catch(err => console.log(err));
   // }
 
-  async function resendConfirmationCode(username, code) {
-    try {
-      await Auth.resendConfirmationCode(username, code);
-      console.log("code resent successfully", code);
-    } catch (err) {
-      console.log("error resending code: ", err);
-    }
-  }
-
   const LoginSchema = Yup.object().shape({
     username: Yup.string().required("Username required"),
     password: Yup.string().required("Password required"),
@@ -107,7 +99,7 @@ function LoginScreen() {
     <Container>
       <Image source={login} style={{ marginBottom: 30, marginTop: 150 }} />
       <Text style={{ fontSize: 18, textAlign: "center" }}>
-        Welcome to your personal data cloud
+        Welcome to your personal data cloud'
       </Text>
       <Formik
         initialValues={{ username: "", password: "" }}
@@ -192,11 +184,11 @@ function LoginScreen() {
               containerStyle={{ alignSelf: "center" }}
             />
             {/* <Button
-              title="Login"
+              title="resend"
               // onPress={() => {
               //   navigate("Verification");
               // }}
-              onPress={resendSignUp}
+              onPress={resendConfirmationCode}
               buttonStyle={{
                 backgroundColor: "#00847A",
                 width: 134,
