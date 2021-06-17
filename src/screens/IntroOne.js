@@ -16,13 +16,20 @@ function IntroOne() {
   const { navigate } = useNavigation();
 
   return (
-    <Container containerStyle={{ paddingRight: 35, paddingLeft: 35 }}>
+    <Container containerStyle={{ paddingRight: 45, paddingLeft: 45 }}>
       <Image source={introOne} style={{ marginBottom: 30, marginTop: 150 }} />
       <Text style={{ fontSize: 18, textAlign: "center" }}>
         Use two-factor authentication
       </Text>
       <View>
-        <Text style={{ marginTop: 24, textAlign: "center" }}>
+        <Text
+          style={{
+            marginTop: 24,
+            textAlign: "center",
+            paddingRight: 45,
+            paddingLeft: 45,
+          }}
+        >
           Verify your login in the personal data cloud mobile app using the
           two-factor authentication method; to strengthen the security of your
           account.

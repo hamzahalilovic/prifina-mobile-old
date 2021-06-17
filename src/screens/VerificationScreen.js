@@ -15,53 +15,19 @@ import email from "../assets/email.png";
 function VerificationScreen({ route }) {
   const { navigate } = useNavigation();
 
-  // const [authCode, setAuthCode] = useState("");
+  const [authCode, setAuthCode] = useState("");
 
-  // async function confirmSignIn() {
-  //   const user = await Auth.confirmSignIn(route.params.username, code)
-  //     .then((user) => {
-  //       console.log("successful confirmation: ", user);
-  //       // this.setState({ authCode: "" });
-  //       navigate("Home");
-  //     })
-  //     .catch((err) => {
-  //       console.log("error confirming user: ", err);
-  //     });
-  // }
-  // function confirmSignIn({ user, code, mfaType }) {
-  //   return Auth.confirmSignIn(user, code, mfaType);
-  // }
-
-  function confirmLogin({ cognitoUser, code }, history) {
-    return function (dispatch) {
-      console.log("actions.confirmLogin(): cognitoUSer, code:", {
-        cognitoUser,
-        code,
+  async function confirmSignIn() {
+    const user = await Auth.confirmSignIn(route.params.username, code)
+      .then((user) => {
+        console.log("successful confirmation: ", user);
+        setAuthCode("");
+        navigate("Home");
+      })
+      .catch((err) => {
+        console.log("error confirming user: ", err);
       });
-
-      // confirmSignIn (cognito)
-      Auth.confirmSignIn(cognitoUser, code)
-        .then((data) => {
-          console.log(
-            "actions.confirmLogin():Auth.confirmSignIn() data: ",
-            data
-          );
-
-          // dispatch AUTH_USER
-
-          // we have authenticated, lets navigate to /main route
-          history.push("/");
-        })
-        .catch((err) => {
-          console.error(
-            "actions.confirmLogin():Auth.confirmSignIn() err:",
-            err
-          );
-          // error -- invoke authError which dispatches AUTH_ERROR
-        });
-    };
   }
-  console.log(confirmLogin);
 
   async function resendConfirmationCode() {
     const user = await Auth.resendSignUp(route.params.username)
@@ -81,8 +47,8 @@ function VerificationScreen({ route }) {
         We have sent you a verification code via SMS. Please enter the code.
       </Text>
       <View marginTop={63}>
-        {/* <ConfirmationCode onValueChange={confirmSignIn} /> */}
-        <Input onChangeText={(authCode) => setAuthCode({ authCode })} />
+        <ConfirmationCode onValueChange={confirmSignIn} />
+        {/* <Input onChangeText={(authCode) => setAuthCode({ authCode })} /> */}
       </View>
       <Button
         title="Confirm"
@@ -97,20 +63,15 @@ function VerificationScreen({ route }) {
           fontSize: 12,
         }}
         // onPress={confirmSignIn}
+        onPress={() => {
+          navigate("Home");
+        }}
       />
       <Button
+        type="clear"
         title="Resend Code"
+        titleStyle={{ color: "#00847A" }}
         onPress={resendConfirmationCode}
-        buttonStyle={{
-          backgroundColor: "#00847A",
-          width: 134,
-          height: 35,
-          marginBottom: 24,
-          marginTop: 31,
-        }}
-        titleStyle={{
-          fontSize: 12,
-        }}
       />
     </Container>
   );

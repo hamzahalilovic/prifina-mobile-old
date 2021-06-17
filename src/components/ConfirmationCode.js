@@ -29,6 +29,7 @@ const ConfirmationCode = ({ onValueChange }) => {
       rootStyle={styles.codeFieldRoot}
       keyboardType="number-pad"
       textContentType="oneTimeCode"
+      editable
       renderCell={({ index, symbol, isFocused }) => (
         <Text
           key={index}

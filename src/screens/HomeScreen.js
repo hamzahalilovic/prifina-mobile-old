@@ -28,9 +28,25 @@ function HomeScreen() {
 
   return (
     <Container containerStyle={{ paddingRight: 35, paddingLeft: 35 }}>
-      <Image source={email} style={{ marginBottom: 30, marginTop: 150 }} />
-      <Text style={{ fontSize: 18, textAlign: "center" }}>HOME SCREEN</Text>
-      <Button title="Logout" onPress={handleSignOut} />
+      {/* <Image source={email} style={{ marginBottom: 30, marginTop: 150 }} /> */}
+      <Text style={{ fontSize: 18, textAlign: "center", marginTop: 300 }}>
+        HOME SCREEN
+      </Text>
+      <Button
+        title="Logout"
+        buttonStyle={{
+          backgroundColor: "#00847A",
+          width: 134,
+          height: 35,
+          marginBottom: 24,
+          marginTop: 31,
+        }}
+        titleStyle={{
+          fontSize: 12,
+        }}
+        // onPress={confirmSignIn}
+        onPress={handleSignOut}
+      />
     </Container>
   );
 }

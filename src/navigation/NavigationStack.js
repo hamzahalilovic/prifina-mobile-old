@@ -32,6 +32,7 @@ function NavigationStack() {
         //     />
         //   ),
         // }}
+        headerMode="none"
       >
         {/* <Stack.Navigator> */}
         <Stack.Screen name="IntroOne" component={IntroOne} />

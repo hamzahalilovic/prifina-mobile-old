@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "prifinamobilece6640ee_identitypool_ce6640ee",
+    "identityPoolName": "prifinamobile7ac606fb_identitypool_7ac606fb",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "prifince6640ee",
-    "userPoolName": "prifinamobilece6640ee_userpool_ce6640ee",
+    "resourceNameTruncated": "prifin7ac606fb",
+    "userPoolName": "prifinamobile7ac606fb_userpool_7ac606fb",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,10 +28,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "prifince6640ee_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "prifin7ac606fb_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "ce6640ee",
-    "resourceName": "prifinamobilece6640ee",
+    "sharedId": "7ac606fb",
+    "resourceName": "prifinamobile7ac606fb",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
