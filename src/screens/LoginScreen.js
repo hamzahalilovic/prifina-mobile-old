@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Linking } from "react-native";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -21,17 +21,7 @@ function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // const header = () =>
-  //   Auth.isUserLoggedIn() ? <Text>Logged in</Text> : <Text>Not logged in</Text>;
   const { navigate } = useNavigation();
-
-  // async function signIn() {
-  //   try {
-  //     const user = await Auth.signIn(username, password);
-  //   } catch (error) {
-  //     console.log("error signing in", error);
-  //   }
-  // }
 
   // async function signIn(username, password) {
   //   try {
@@ -47,6 +37,88 @@ function LoginScreen() {
   //     console.log("error signing in", error);
   //   }
   // }
+
+  async function validateUserSession() {
+    console.log("actions.validateUserSession()");
+
+    const user = await Auth.currentAuthenticatedUser()
+      .then((currentAuthUser) => {
+        console.log(
+          "actions.validateUserSession():Auth.currentAuthenticatedUser() currentAuthUser:",
+          currentAuthUser
+        );
+        // grab the user session
+        Auth.userSession(currentAuthUser)
+          .then((session) => {
+            console.log(
+              "actions.validateUserSession():Auth.userSession() session:",
+              session
+            );
+
+            if (session.isValid()) {
+              console.log("valid session");
+              //history.push('/');
+            } else {
+              // fire user is unauthenticated
+              // dispatch({ type: UNAUTH_USER });
+              //history.push('/');
+              console.log("NOT valid session");
+            }
+          })
+          .catch((err) => {
+            console.error(
+              "actions.validateUserSession():Auth.userSession() err:",
+              err
+            );
+            // error occured during session validation, fire user is unauthenticated
+            // dispatch({ type: UNAUTH_USER });
+            //history.push('/');
+          });
+      })
+      .catch((err) => {
+        console.error(
+          "actions.validateUserSession():Auth.currentAuthenticatedUser() err:",
+          err
+        );
+        // error occured while retrieving current auth user, fire user is unauthenticated
+        // dispatch({ type: UNAUTH_USER });
+        //history.push('/');
+      });
+  }
+
+  async function confirmLogin({ cognitoUser, code }, history) {
+    console.log("actions.confirmLogin(): cognitoUSer, code:", {
+      cognitoUser,
+      code,
+    });
+
+    // confirmSignIn (cognito)
+    const user = await Auth.confirmSignIn(cognitoUser, parseInt(authCode))
+      .then((data) => {
+        console.log("actions.confirmLogin():Auth.confirmSignIn() data: ", data);
+        console.log("INFOR ", cognitoUser);
+
+        // dispatch AUTH_USER
+        // dispatch({ type: AUTH_USER });
+
+        // we have authenticated, lets navigate to /main route
+        history.push("/");
+      })
+      .catch((err) => {
+        console.error("actions.confirmLogin():Auth.confirmSignIn() err:", err);
+        // error -- invoke authError which dispatches AUTH_ERROR
+        // dispatch(authError(err));
+      });
+  }
+
+  async function resendConfirmationCode() {
+    try {
+      await Auth.resendSignUp(username);
+      console.log("code resent successfully");
+    } catch (err) {
+      console.log("error resending code: ", err);
+    }
+  }
 
   async function signIn(username, password, newPassword) {
     const user = await Auth.signIn(username, password, newPassword)
@@ -66,7 +138,9 @@ function LoginScreen() {
               console.log(e);
             });
         } else if (user.challengeName == "SMS_MFA") {
-          navigate("Verification", { user });
+          console.log("sucessfully logged in");
+          console.log("user", username);
+          navigate("Verification", { username, password });
         } else {
           // other situations
         }
@@ -90,15 +164,6 @@ function LoginScreen() {
   //     .catch(err => console.log(err));
   // }
 
-  async function resendConfirmationCode(username, code) {
-    try {
-      await Auth.resendConfirmationCode(username, code);
-      console.log("code resent successfully", code);
-    } catch (err) {
-      console.log("error resending code: ", err);
-    }
-  }
-
   const LoginSchema = Yup.object().shape({
     username: Yup.string().required("Username required"),
     password: Yup.string().required("Password required"),
@@ -107,7 +172,7 @@ function LoginScreen() {
     <Container>
       <Image source={login} style={{ marginBottom: 30, marginTop: 150 }} />
       <Text style={{ fontSize: 18, textAlign: "center" }}>
-        Welcome to your personal data cloud
+        Welcome to your personal data cloud'
       </Text>
       <Formik
         initialValues={{ username: "", password: "" }}
@@ -148,7 +213,6 @@ function LoginScreen() {
               value={values.username}
             />
             <Text>{error.message}</Text>
-
             <Input
               name="password"
               placeholder="Password"
@@ -192,11 +256,29 @@ function LoginScreen() {
               containerStyle={{ alignSelf: "center" }}
             />
             {/* <Button
-              title="Login"
+              title="confirm"
               // onPress={() => {
               //   navigate("Verification");
               // }}
-              onPress={resendSignUp}
+              onPress={resendConfirmationCode}
+              buttonStyle={{
+                backgroundColor: "#00847A",
+                width: 134,
+                height: 35,
+                marginBottom: 24,
+                marginTop: 34,
+              }}
+              titleStyle={{
+                fontSize: 12,
+              }}
+              containerStyle={{ alignSelf: "center" }}
+            />
+            <Button
+              title="validate"
+              // onPress={() => {
+              //   navigate("Verification");
+              // }}
+              onPress={validateUserSession}
               buttonStyle={{
                 backgroundColor: "#00847A",
                 width: 134,
@@ -209,6 +291,19 @@ function LoginScreen() {
               }}
               containerStyle={{ alignSelf: "center" }}
             /> */}
+            <View alignItems="center">
+              <Text>Don’t have an account? </Text>
+              <Button
+                type="clear"
+                title="Sign up"
+                titleStyle={{ color: "#00847A" }}
+                onPress={() =>
+                  Linking.openURL(
+                    "http://alpha.app.prifina.com/login?redirect=/"
+                  )
+                }
+              />
+            </View>
           </View>
         )}
       </Formik>

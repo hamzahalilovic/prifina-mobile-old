@@ -1,6 +1,6 @@
 {
   "auth": {
-    "prifinamobilece6640ee": {
+    "prifinamobile7ac606fb": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],

@@ -12,20 +12,31 @@ import ConfirmationCode from "../components/ConfirmationCode";
 
 import email from "../assets/email.png";
 
-function VerificationScreen() {
+function VerificationScreen({ route }) {
   const { navigate } = useNavigation();
 
   const [authCode, setAuthCode] = useState("");
 
   async function confirmSignIn() {
-    const user = await Auth.confirmSignIn(username, authCode)
+    const user = await Auth.confirmSignIn(route.params.username, code)
       .then((user) => {
         console.log("successful confirmation: ", user);
-        // this.setState({ authCode: "" });
+        setAuthCode("");
         navigate("Home");
       })
       .catch((err) => {
         console.log("error confirming user: ", err);
+      });
+  }
+
+  async function resendConfirmationCode() {
+    const user = await Auth.resendSignUp(route.params.username)
+      .then((user) => {
+        // at this time the user is logged in if no MFA required
+        console.log(route.params.username);
+      })
+      .catch((e) => {
+        console.log(e);
       });
   }
 
@@ -36,8 +47,8 @@ function VerificationScreen() {
         We have sent you a verification code via SMS. Please enter the code.
       </Text>
       <View marginTop={63}>
-        {/* <ConfirmationCode onValueChange={confirmSignIn} /> */}
-        <Input onChangeText={(authCode) => setAuthCode({ authCode })} />
+        <ConfirmationCode onValueChange={confirmSignIn} />
+        {/* <Input onChangeText={(authCode) => setAuthCode({ authCode })} /> */}
       </View>
       <Button
         title="Confirm"
@@ -51,23 +62,16 @@ function VerificationScreen() {
         titleStyle={{
           fontSize: 12,
         }}
-        onPress={confirmSignIn}
+        // onPress={confirmSignIn}
+        onPress={() => {
+          navigate("Home");
+        }}
       />
       <Button
+        type="clear"
         title="Resend Code"
-        onPress={() => {
-          navigate("IntroTwo");
-        }}
-        buttonStyle={{
-          backgroundColor: "#00847A",
-          width: 134,
-          height: 35,
-          marginBottom: 24,
-          marginTop: 31,
-        }}
-        titleStyle={{
-          fontSize: 12,
-        }}
+        titleStyle={{ color: "#00847A" }}
+        onPress={resendConfirmationCode}
       />
     </Container>
   );
