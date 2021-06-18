@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaView } from "react-native";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 
 function Container({ children, containerStyle }) {
   return (
@@ -16,7 +16,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F5F8F7",
     alignItems: "center",
-    // justifyContent: "space-between",
+    paddingRight: 45,
+    paddingLeft: 45,
+    paddingBottom: 10,
   },
 });
 

@@ -15,7 +15,7 @@ const ConfirmationCode = ({ onValueChange }) => {
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
-    setValue: onValueChange ?? (() => {}),
+    setValue,
   });
 
   return (
@@ -29,7 +29,7 @@ const ConfirmationCode = ({ onValueChange }) => {
       rootStyle={styles.codeFieldRoot}
       keyboardType="number-pad"
       textContentType="oneTimeCode"
-      editable
+      editable={true}
       renderCell={({ index, symbol, isFocused }) => (
         <Text
           key={index}
@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#00847A",
     textAlign: "center",
-    // textAlignVertical: "center",
     marginRight: 25,
     borderRadius: 5,
     alignItems: "center",
