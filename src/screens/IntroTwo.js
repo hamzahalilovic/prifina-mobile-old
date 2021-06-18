@@ -30,16 +30,16 @@ function IntroTwo() {
           width: 134,
           height: 35,
           marginBottom: 24,
-          marginTop: 190,
+          marginTop: 160,
         }}
         onPress={() => {
-          navigate("IntroThree");
+          navigate("Step Three");
         }}
         titleStyle={{
           fontSize: 12,
         }}
       />
-      <View flex="fisplay" flexDirection="row" style={{ marginBottom: 52 }}>
+      <View flex="fisplay" flexDirection="row" style={{ marginBottom: 72 }}>
         <View
           style={{
             width: 12,

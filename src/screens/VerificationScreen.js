@@ -1,27 +1,43 @@
 import React, { useState } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 
 import { Auth } from "aws-amplify";
 
-import { Button, Input, Icon } from "react-native-elements";
+import { Button } from "react-native-elements";
 
 import Container from "../components/Container";
 import ConfirmationCode from "../components/ConfirmationCode";
+
+import {
+  CodeField,
+  Cursor,
+  useBlurOnFulfill,
+  useClearByFocusCell,
+} from "react-native-confirmation-code-field";
 
 import email from "../assets/email.png";
 
 function VerificationScreen({ route }) {
   const { navigate } = useNavigation();
 
+  const CELL_COUNT = 6;
+
   const [authCode, setAuthCode] = useState("");
+
+  const [value, setValue] = useState("");
+  const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
+  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+    value,
+    setValue,
+  });
 
   async function confirmSignIn() {
     const user = await Auth.confirmSignIn(route.params.username, code)
       .then((user) => {
         console.log("successful confirmation: ", user);
-        setAuthCode("");
+        setAuthCode();
         navigate("Home");
       })
       .catch((err) => {
@@ -43,11 +59,36 @@ function VerificationScreen({ route }) {
   return (
     <Container containerStyle={{ paddingRight: 35, paddingLeft: 35 }}>
       <Image source={email} style={{ marginBottom: 30, marginTop: 150 }} />
-      <Text style={{ fontSize: 18, textAlign: "center" }}>
+      <Text
+        style={{
+          fontSize: 18,
+          textAlign: "center",
+          paddingRight: 25,
+          paddingLeft: 25,
+        }}
+      >
         We have sent you a verification code via SMS. Please enter the code.
       </Text>
       <View marginTop={63}>
-        <ConfirmationCode onValueChange={confirmSignIn} />
+        <CodeField
+          ref={ref}
+          {...props}
+          value={value}
+          onChangeText={setValue}
+          cellCount={CELL_COUNT}
+          rootStyle={styles.codeFieldRoot}
+          keyboardType="number-pad"
+          textContentType="oneTimeCode"
+          renderCell={({ index, symbol, isFocused }) => (
+            <Text
+              key={index}
+              style={[styles.cell, isFocused && styles.focusCell]}
+              onLayout={getCellOnLayoutHandler(index)}
+            >
+              {symbol || (isFocused ? <Cursor /> : null)}
+            </Text>
+          )}
+        />
         {/* <Input onChangeText={(authCode) => setAuthCode({ authCode })} /> */}
       </View>
       <Button
@@ -76,5 +117,28 @@ function VerificationScreen({ route }) {
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  title: { textAlign: "center", fontSize: 30 },
+  codeFieldRoot: {
+    marginTop: 20,
+  },
+  cell: {
+    width: 31,
+    height: 33,
+    lineHeight: 13,
+    fontSize: 12,
+    borderWidth: 1,
+    borderColor: "#00847A",
+    textAlign: "center",
+    marginRight: 25,
+    borderRadius: 5,
+    alignItems: "center",
+    paddingTop: 10,
+  },
+  focusCell: {
+    borderColor: "#C3C2C2",
+  },
+});
 
 export default VerificationScreen;

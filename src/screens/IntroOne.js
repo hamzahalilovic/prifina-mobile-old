@@ -26,8 +26,8 @@ function IntroOne() {
           style={{
             marginTop: 24,
             textAlign: "center",
-            paddingRight: 45,
-            paddingLeft: 45,
+            paddingRight: 25,
+            paddingLeft: 25,
           }}
         >
           Verify your login in the personal data cloud mobile app using the
@@ -38,20 +38,20 @@ function IntroOne() {
       <Button
         title="Next"
         onPress={() => {
-          navigate("IntroTwo");
+          navigate("Step Two");
         }}
         buttonStyle={{
           backgroundColor: "#00847A",
           width: 134,
           height: 35,
           marginBottom: 24,
-          marginTop: 190,
+          marginTop: 160,
         }}
         titleStyle={{
           fontSize: 12,
         }}
       />
-      <View flex="fisplay" flexDirection="row" style={{ marginBottom: 52 }}>
+      <View flex="fisplay" flexDirection="row" style={{ marginBottom: 72 }}>
         <View
           style={{
             width: 12,

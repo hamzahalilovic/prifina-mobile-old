@@ -23,21 +23,6 @@ function LoginScreen() {
 
   const { navigate } = useNavigation();
 
-  // async function signIn(username, password) {
-  //   try {
-  //     const user = await Auth.signIn(username, password);
-  //     // .then((user) =>
-  //     //   navigate("Home")
-  //     // );
-
-  //     console.log("success");
-  //     console.log(user);
-  //   } catch (error) {
-  //     setError(error);
-  //     console.log("error signing in", error);
-  //   }
-  // }
-
   async function validateUserSession() {
     console.log("actions.validateUserSession()");
 
@@ -57,11 +42,7 @@ function LoginScreen() {
 
             if (session.isValid()) {
               console.log("valid session");
-              //history.push('/');
             } else {
-              // fire user is unauthenticated
-              // dispatch({ type: UNAUTH_USER });
-              //history.push('/');
               console.log("NOT valid session");
             }
           })
@@ -70,9 +51,6 @@ function LoginScreen() {
               "actions.validateUserSession():Auth.userSession() err:",
               err
             );
-            // error occured during session validation, fire user is unauthenticated
-            // dispatch({ type: UNAUTH_USER });
-            //history.push('/');
           });
       })
       .catch((err) => {
@@ -80,9 +58,6 @@ function LoginScreen() {
           "actions.validateUserSession():Auth.currentAuthenticatedUser() err:",
           err
         );
-        // error occured while retrieving current auth user, fire user is unauthenticated
-        // dispatch({ type: UNAUTH_USER });
-        //history.push('/');
       });
   }
 
@@ -92,22 +67,15 @@ function LoginScreen() {
       code,
     });
 
-    // confirmSignIn (cognito)
     const user = await Auth.confirmSignIn(cognitoUser, parseInt(authCode))
       .then((data) => {
         console.log("actions.confirmLogin():Auth.confirmSignIn() data: ", data);
         console.log("INFOR ", cognitoUser);
 
-        // dispatch AUTH_USER
-        // dispatch({ type: AUTH_USER });
-
-        // we have authenticated, lets navigate to /main route
         history.push("/");
       })
       .catch((err) => {
         console.error("actions.confirmLogin():Auth.confirmSignIn() err:", err);
-        // error -- invoke authError which dispatches AUTH_ERROR
-        // dispatch(authError(err));
       });
   }
 
@@ -146,23 +114,11 @@ function LoginScreen() {
         }
       })
       .catch((e) => {
+        setError(e);
+
         console.log(e);
       });
   }
-
-  // signInAmazonCognito(){
-  //   Auth.signIn(this.state.email, this.state.password)
-  //     .then(res => {
-  //       console.log(res);
-  //       if (res.challengeName == "SMS_MFA"){
-  //         this.props.navigation.navigate('LoginMFA', { user:res });
-  //       }
-  //       else {
-  //         this.props.navigation.navigate('Account');
-  //       }
-  //     })
-  //     .catch(err => console.log(err));
-  // }
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string().required("Username required"),
@@ -172,7 +128,7 @@ function LoginScreen() {
     <Container>
       <Image source={login} style={{ marginBottom: 30, marginTop: 150 }} />
       <Text style={{ fontSize: 18, textAlign: "center" }}>
-        Welcome to your personal data cloud'
+        Welcome to your personal data cloud
       </Text>
       <Formik
         initialValues={{ username: "", password: "" }}
@@ -185,7 +141,7 @@ function LoginScreen() {
           }, 1000);
         }}
       >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
+        {({ handleChange, handleBlur, handleSubmit, values, props }) => (
           <View marginTop={63}>
             <Input
               name="username"
@@ -212,7 +168,6 @@ function LoginScreen() {
               onBlur={handleBlur("username")}
               value={values.username}
             />
-            <Text>{error.message}</Text>
             <Input
               name="password"
               placeholder="Password"
@@ -237,6 +192,9 @@ function LoginScreen() {
               onBlur={handleBlur("password")}
               value={values.password}
             />
+            <View alignItems="center">
+              <Text style={{ color: "red" }}>{error.message}</Text>
+            </View>
             <Button
               title="Login"
               // onPress={() => {
