@@ -35,8 +35,16 @@ function NavigationStack() {
         <Stack.Screen name="Data Sync" component={IntroTwo} />
         <Stack.Screen name="Data Hub" component={IntroThree} />
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Verification" component={VerificationScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen
+          name="Verification"
+          component={VerificationScreen}
+          options={{ gestureEnabled: false }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ gestureEnabled: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
 
