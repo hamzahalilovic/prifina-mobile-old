@@ -10,10 +10,10 @@ const Stack = createStackNavigator();
 
 function IntroNavigationStack() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Step One" component={IntroOne} />
-      <Stack.Screen name="Step Two" component={IntroTwo} />
-      <Stack.Screen name="Step Three" component={IntroThree} />
+    <Stack.Navigator >
+      <Stack.Screen name="2FA" component={IntroOne} />
+      <Stack.Screen name="Data Sync" component={IntroTwo} />
+      <Stack.Screen name="Data Hub" component={IntroThree} />
     </Stack.Navigator>
   );
 }

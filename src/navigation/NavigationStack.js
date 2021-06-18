@@ -12,6 +12,11 @@ import HomeScreen from "../screens/HomeScreen";
 
 import IntroNavigationStack from "./IntroNavigationStack";
 
+import IntroOne from "../screens/IntroOne";
+
+import IntroTwo from "../screens/IntroTwo";
+import IntroThree from "../screens/IntroThree";
+
 const Stack = createStackNavigator();
 
 function NavigationStack() {
@@ -23,8 +28,12 @@ function NavigationStack() {
         <Stack.Screen name="IntroTwo" component={IntroTwo} />
         <Stack.Screen name="IntroThree" component={IntroThree} /> */}
 
-        <Stack.Screen name="Intro" component={IntroNavigationStack} />
+        {/* <Stack.Screen name="Intro" component={IntroNavigationStack} />
+         */}
 
+        <Stack.Screen name="2FA" component={IntroOne} />
+        <Stack.Screen name="Data Sync" component={IntroTwo} />
+        <Stack.Screen name="Data Hub" component={IntroThree} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Verification" component={VerificationScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />

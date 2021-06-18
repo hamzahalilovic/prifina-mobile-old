@@ -38,20 +38,20 @@ function IntroOne() {
       <Button
         title="Next"
         onPress={() => {
-          navigate("Step Two");
+          navigate("Data Sync");
         }}
         buttonStyle={{
           backgroundColor: "#00847A",
           width: 134,
           height: 35,
           marginBottom: 24,
-          marginTop: 160,
+          marginTop: 170,
         }}
         titleStyle={{
           fontSize: 12,
         }}
       />
-      <View flex="fisplay" flexDirection="row" style={{ marginBottom: 72 }}>
+      <View flex="fisplay" flexDirection="row" style={{ marginBottom: 100 }}>
         <View
           style={{
             width: 12,

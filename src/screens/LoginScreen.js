@@ -6,6 +6,8 @@ import * as Yup from "yup";
 
 import { useNavigation } from "@react-navigation/native";
 
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import { Auth } from "aws-amplify";
 
 import { Button, Input } from "react-native-elements";
@@ -125,95 +127,99 @@ function LoginScreen() {
     password: Yup.string().required("Password required"),
   });
   return (
-    <Container>
-      <Image source={login} style={{ marginBottom: 30, marginTop: 150 }} />
-      <Text style={{ fontSize: 18, textAlign: "center" }}>
-        Welcome to your personal data cloud
-      </Text>
-      <Formik
-        initialValues={{ username: "", password: "" }}
-        validationSchema={LoginSchema}
-        onSubmit={(values, actions) => {
-          signIn(values);
-          setTimeout(() => {
-            // alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-          }, 1000);
-        }}
-      >
-        {({ handleChange, handleBlur, handleSubmit, values, props }) => (
-          <View marginTop={63}>
-            <Input
-              name="username"
-              placeholder="Username"
-              leftIcon={<Image source={profile} />}
-              containerStyle={{ alignItems: "center" }}
-              inputContainerStyle={{
-                borderWidth: 1.4,
-                borderRadius: 5,
-                width: 216,
-                height: 33,
-                paddingLeft: 11,
-                borderColor: "#00847A",
-              }}
-              inputStyle={{
-                // textAlign: "center",
-                paddingLeft: 45,
-                fontSize: 14,
-              }}
-              // onBlur={() => setFieldTouched("username")}
-              // onChangeText={handleChange("username")}
-              autoCapitalize="none"
-              onChangeText={handleChange("username")}
-              onBlur={handleBlur("username")}
-              value={values.username}
-            />
-            <Input
-              name="password"
-              placeholder="Password"
-              leftIcon={<Image source={lock} />}
-              containerStyle={{ alignItems: "center" }}
-              inputContainerStyle={{
-                borderWidth: 1.4,
-                borderRadius: 5,
-                width: 216,
-                height: 33,
-                paddingLeft: 11,
-                borderColor: "#00847A",
-              }}
-              inputStyle={{
-                // textAlign: "center",
-                paddingLeft: 45,
-                fontSize: 14,
-              }}
-              autoCapitalize="none"
-              secureTextEntry
-              onChangeText={handleChange("password")}
-              onBlur={handleBlur("password")}
-              value={values.password}
-            />
-            <View alignItems="center">
-              <Text style={{ color: "red" }}>{error.message}</Text>
-            </View>
-            <Button
-              title="Login"
-              // onPress={() => {
-              //   navigate("Verification");
-              // }}
-              onPress={handleSubmit}
-              buttonStyle={{
-                backgroundColor: "#00847A",
-                width: 134,
-                height: 35,
-                marginBottom: 24,
-                marginTop: 34,
-              }}
-              titleStyle={{
-                fontSize: 12,
-              }}
-              containerStyle={{ alignSelf: "center" }}
-            />
-            {/* <Button
+    <KeyboardAwareScrollView
+      extraHeight={200}
+      style={{ backgroundColor: "#F5F8F7" }}
+    >
+      <Container>
+        <Image source={login} style={{ marginBottom: 30, marginTop: 150 }} />
+        <Text style={{ fontSize: 18, textAlign: "center" }}>
+          Welcome to your personal data cloud
+        </Text>
+        <Formik
+          initialValues={{ username: "", password: "" }}
+          validationSchema={LoginSchema}
+          onSubmit={(values, actions) => {
+            signIn(values);
+            setTimeout(() => {
+              // alert(JSON.stringify(values, null, 2));
+              actions.setSubmitting(false);
+            }, 1000);
+          }}
+        >
+          {({ handleChange, handleBlur, handleSubmit, values, props }) => (
+            <View marginTop={63}>
+              <Input
+                name="username"
+                placeholder="Username"
+                leftIcon={<Image source={profile} />}
+                containerStyle={{ alignItems: "center" }}
+                inputContainerStyle={{
+                  borderWidth: 1.4,
+                  borderRadius: 5,
+                  width: 216,
+                  height: 33,
+                  paddingLeft: 11,
+                  borderColor: "#00847A",
+                }}
+                inputStyle={{
+                  // textAlign: "center",
+                  paddingLeft: 45,
+                  fontSize: 14,
+                }}
+                // onBlur={() => setFieldTouched("username")}
+                // onChangeText={handleChange("username")}
+                autoCapitalize="none"
+                onChangeText={handleChange("username")}
+                onBlur={handleBlur("username")}
+                value={values.username}
+              />
+              <Input
+                name="password"
+                placeholder="Password"
+                leftIcon={<Image source={lock} />}
+                containerStyle={{ alignItems: "center" }}
+                inputContainerStyle={{
+                  borderWidth: 1.4,
+                  borderRadius: 5,
+                  width: 216,
+                  height: 33,
+                  paddingLeft: 11,
+                  borderColor: "#00847A",
+                }}
+                inputStyle={{
+                  // textAlign: "center",
+                  paddingLeft: 45,
+                  fontSize: 14,
+                }}
+                autoCapitalize="none"
+                secureTextEntry
+                onChangeText={handleChange("password")}
+                onBlur={handleBlur("password")}
+                value={values.password}
+              />
+              <View alignItems="center">
+                <Text style={{ color: "red" }}>{error.message}</Text>
+              </View>
+              <Button
+                title="Login"
+                // onPress={() => {
+                //   navigate("Verification");
+                // }}
+                onPress={handleSubmit}
+                buttonStyle={{
+                  backgroundColor: "#00847A",
+                  width: 134,
+                  height: 35,
+                  marginBottom: 24,
+                  marginTop: 34,
+                }}
+                titleStyle={{
+                  fontSize: 12,
+                }}
+                containerStyle={{ alignSelf: "center" }}
+              />
+              {/* <Button
               title="confirm"
               // onPress={() => {
               //   navigate("Verification");
@@ -249,23 +255,24 @@ function LoginScreen() {
               }}
               containerStyle={{ alignSelf: "center" }}
             /> */}
-            <View alignItems="center">
-              <Text>Don’t have an account? </Text>
-              <Button
-                type="clear"
-                title="Sign up"
-                titleStyle={{ color: "#00847A" }}
-                onPress={() =>
-                  Linking.openURL(
-                    "http://alpha.app.prifina.com/login?redirect=/"
-                  )
-                }
-              />
+              <View alignItems="center">
+                <Text>Don’t have an account?</Text>
+                <Button
+                  type="clear"
+                  title="Sign up"
+                  titleStyle={{ color: "#00847A" }}
+                  onPress={() =>
+                    Linking.openURL(
+                      "http://alpha.app.prifina.com/login?redirect=/"
+                    )
+                  }
+                />
+              </View>
             </View>
-          </View>
-        )}
-      </Formik>
-    </Container>
+          )}
+        </Formik>
+      </Container>
+    </KeyboardAwareScrollView>
   );
 }
 

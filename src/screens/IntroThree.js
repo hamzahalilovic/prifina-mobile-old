@@ -30,7 +30,7 @@ function IntroThree() {
           width: 134,
           height: 35,
           marginBottom: 24,
-          marginTop: 150,
+          marginTop: 160,
         }}
         onPress={() => {
           navigate("Login");

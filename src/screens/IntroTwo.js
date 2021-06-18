@@ -30,10 +30,10 @@ function IntroTwo() {
           width: 134,
           height: 35,
           marginBottom: 24,
-          marginTop: 160,
+          marginTop: 170,
         }}
         onPress={() => {
-          navigate("Step Three");
+          navigate("Data Hub");
         }}
         titleStyle={{
           fontSize: 12,

@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "prifina-mobile",
+    "owner": "prifina",
     "slug": "prifina-mobile",
     "version": "1.0.0",
     "orientation": "portrait",

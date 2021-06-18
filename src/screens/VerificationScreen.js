@@ -7,6 +7,8 @@ import { Auth } from "aws-amplify";
 
 import { Button } from "react-native-elements";
 
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import Container from "../components/Container";
 import ConfirmationCode from "../components/ConfirmationCode";
 
@@ -57,64 +59,69 @@ function VerificationScreen({ route }) {
   }
 
   return (
-    <Container containerStyle={{ paddingRight: 35, paddingLeft: 35 }}>
-      <Image source={email} style={{ marginBottom: 30, marginTop: 150 }} />
-      <Text
-        style={{
-          fontSize: 18,
-          textAlign: "center",
-          paddingRight: 25,
-          paddingLeft: 25,
-        }}
-      >
-        We have sent you a verification code via SMS. Please enter the code.
-      </Text>
-      <View marginTop={63}>
-        <CodeField
-          ref={ref}
-          {...props}
-          value={value}
-          onChangeText={setValue}
-          cellCount={CELL_COUNT}
-          rootStyle={styles.codeFieldRoot}
-          keyboardType="number-pad"
-          textContentType="oneTimeCode"
-          renderCell={({ index, symbol, isFocused }) => (
-            <Text
-              key={index}
-              style={[styles.cell, isFocused && styles.focusCell]}
-              onLayout={getCellOnLayoutHandler(index)}
-            >
-              {symbol || (isFocused ? <Cursor /> : null)}
-            </Text>
-          )}
+    <KeyboardAwareScrollView
+      extraHeight={200}
+      style={{ backgroundColor: "#F5F8F7" }}
+    >
+      <Container containerStyle={{ paddingRight: 35, paddingLeft: 35 }}>
+        <Image source={email} style={{ marginBottom: 30, marginTop: 150 }} />
+        <Text
+          style={{
+            fontSize: 18,
+            textAlign: "center",
+            paddingRight: 25,
+            paddingLeft: 25,
+          }}
+        >
+          We have sent you a verification code via SMS. Please enter the code.
+        </Text>
+        <View marginTop={63}>
+          <CodeField
+            ref={ref}
+            {...props}
+            value={value}
+            onChangeText={setValue}
+            cellCount={CELL_COUNT}
+            rootStyle={styles.codeFieldRoot}
+            keyboardType="number-pad"
+            textContentType="oneTimeCode"
+            renderCell={({ index, symbol, isFocused }) => (
+              <Text
+                key={index}
+                style={[styles.cell, isFocused && styles.focusCell]}
+                onLayout={getCellOnLayoutHandler(index)}
+              >
+                {symbol || (isFocused ? <Cursor /> : null)}
+              </Text>
+            )}
+          />
+          {/* <Input onChangeText={(authCode) => setAuthCode({ authCode })} /> */}
+        </View>
+        <Button
+          title="Confirm"
+          buttonStyle={{
+            backgroundColor: "#00847A",
+            width: 134,
+            height: 35,
+            marginBottom: 24,
+            marginTop: 31,
+          }}
+          titleStyle={{
+            fontSize: 12,
+          }}
+          // onPress={confirmSignIn}
+          onPress={() => {
+            navigate("Home");
+          }}
         />
-        {/* <Input onChangeText={(authCode) => setAuthCode({ authCode })} /> */}
-      </View>
-      <Button
-        title="Confirm"
-        buttonStyle={{
-          backgroundColor: "#00847A",
-          width: 134,
-          height: 35,
-          marginBottom: 24,
-          marginTop: 31,
-        }}
-        titleStyle={{
-          fontSize: 12,
-        }}
-        // onPress={confirmSignIn}
-        onPress={() => {
-          navigate("Home");
-        }}
-      />
-      <Button
-        type="clear"
-        title="Resend Code"
-        titleStyle={{ color: "#00847A" }}
-        onPress={resendConfirmationCode}
-      />
-    </Container>
+        <Button
+          type="clear"
+          title="Resend Code"
+          titleStyle={{ color: "#00847A" }}
+          onPress={resendConfirmationCode}
+        />
+      </Container>
+    </KeyboardAwareScrollView>
   );
 }
 
